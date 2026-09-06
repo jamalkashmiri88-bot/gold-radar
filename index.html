@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XAUUSD Live Order Flow & Real-Time News Terminal</title>
+    <title>XAUUSD Live Order Flow & Smart Money Terminal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=VT323&display=swap" rel="stylesheet">
@@ -76,7 +76,7 @@
             padding-bottom: 4px;
         }
 
-        /* DROPDOWN REAL NEWS SECTION */
+        /* DROPDOWN NEWS SECTION */
         .news-accordion {
             background: var(--bg-panel);
             border: 1px solid var(--amber-gold);
@@ -99,17 +99,6 @@
             align-items: center;
         }
 
-        .news-badge {
-            background: var(--v-red);
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 10px;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
         .news-content {
             display: none;
             padding: 12px;
@@ -131,7 +120,7 @@
             line-height: 1.6;
         }
 
-        .container { width: 100%; height: 100%; min-height: 440px; }
+        .container { width: 100%; height: 100%; min-height: 480px; }
     </style>
 </head>
 <body>
@@ -147,22 +136,16 @@
     <div class="news-accordion">
         <button class="news-header-btn" onclick="toggleNews()">
             <span>📰 لائیو گولڈ اینڈ ڈالر نیوز (GOLD & USD LIVE NEWS STREAM)</span>
-            <div>
-                <span class="news-badge">LIVE UPDATES</span>
-                <span id="arrow-icon" style="margin-left: 8px;">▼</span>
-            </div>
+            <span id="arrow-icon">▼</span>
         </button>
         <div id="news-body" class="news-content">
-            
             <div class="book-guide">
-                <strong>📚 مشہور ٹریڈنگ بکس (Mark Douglas & John Murphy) کے مطابق نیوز ٹریڈنگ رولز:</strong><br>
-                • <strong>خبر سے ڈالر (USD) مضبوط ہو (Green News):</strong> گولڈ نیچے گرے گا ➔ <strong>SELL کی ٹریڈ دیکھیں۔</strong><br>
-                • <strong>خبر سے ڈالر (USD) کمزور ہو (Red News):</strong> گولڈ اوپر جائے گا ➔ <strong>BUY کی ٹریڈ دیکھیں۔</strong><br>
-                • <strong>سنہری اصول:</strong> خبر آتے ہی پہلے 3 سے 5 منٹ تک مارکیٹ میں جھٹکے (Spikes) لگتے ہیں۔ پہلی 5 منٹ کی کینڈل بند ہونے کا انتظار کریں، پھر انسٹی ٹیوشنز کی سمت میں ٹریڈ لیں۔
+                <strong>📚 خبروں کے وقت فیک بریک آؤٹ سے بچنے کا طریقہ:</strong><br>
+                • اگر خبر آنے کے وقت کینڈل تیز رفتاری سے اوپر جائے لیکن اوپر لمبا وِک (Wick) چھوڑ کر چینل کے اندر واپس آ جائے، تو وہ <strong>Fake Buy / Liquidity Trap</strong> ہوتا ہے۔ فوری Sell کی ٹریڈ دیکھیں۔<br>
+                • ہمیشہ پہلی 5 منٹ کی کینڈل کلوز ہونے کا انتظار کریں۔
             </div>
 
-            <!-- TRADINGVIEW LIVE REAL-TIME NEWS FEED FOR GOLD & USD -->
-            <div style="height: 320px; width: 100%;">
+            <div style="height: 300px; width: 100%;">
                 <div class="tradingview-widget-container" style="height:100%; width:100%;">
                     <div class="tradingview-widget-container__widget"></div>
                     <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
@@ -179,20 +162,19 @@
                     </script>
                 </div>
             </div>
-
         </div>
     </div>
 
     <div class="grid">
-        <!-- REALTIME CHART WITH RSI + MONEY FLOW INDEX (ORDER FLOW) -->
+        <!-- REALTIME CHART WITH PRE-LOADED TRAP / BREAKOUT INDICATORS -->
         <div class="panel">
-            <div class="p-title">XAU/USD Real-Time Chart + RSI + Money Flow (MFI)</div>
+            <div class="p-title">XAU/USD Real-Time Chart + Breakout Channels + RSI + Volume MFI</div>
             <div class="container">
                 <div id="tv_chart_container" style="height:100%; width:100%;"></div>
             </div>
         </div>
 
-        <!-- ACCURATE INSTITUTIONAL TECHNICAL GAUGE -->
+        <!-- TECHNICAL GAUGE -->
         <div class="panel">
             <div class="p-title">Real-Time Technical & Order Flow Gauge</div>
             <div style="flex-grow: 1; width: 100%;">
@@ -216,7 +198,7 @@
         </div>
     </div>
 
-    <!-- TRADINGVIEW SCRIPT -->
+    <!-- TRADINGVIEW SCRIPT WITH BUILT-IN BREAKOUT INDICATORS -->
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script type="text/javascript">
         new TradingView.widget({
@@ -233,8 +215,9 @@
             "save_image": false,
             "container_id": "tv_chart_container",
             "studies": [
-                "STD;RSI",
-                "STD;Money_Flow_Index"
+                "STD;BB",                   // Bollinger Bands (To identify Fake Breakouts/Trapper Lines)
+                "STD;RSI",                  // Relative Strength Index (Divergence)
+                "STD;Money_Flow_Index"     // Money Flow Index (Volume & Smart Money Activity)
             ]
         });
 
