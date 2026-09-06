@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XAUUSD Vintage Terminal & Smart Money Detector</title>
+    <title>XAUUSD Institutional Radar & Live News Stream</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=VT323&display=swap" rel="stylesheet">
@@ -30,6 +30,7 @@
             display: flex;
             flex-direction: column;
             padding: 12px;
+            gap: 12px;
         }
 
         .header {
@@ -39,7 +40,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
         }
 
         .title {
@@ -76,32 +76,61 @@
             padding-bottom: 4px;
         }
 
-        /* SMART MONEY DETECTOR BOX */
-        .fake-detector-card {
-            background: #08090b;
+        /* LIVE NEWS DROPDOWN SECTION */
+        .news-accordion {
+            background: var(--bg-panel);
             border: 1px solid var(--amber-gold);
-            padding: 12px;
             border-radius: 4px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            overflow: hidden;
         }
 
-        .status-badge {
-            font-family: var(--font-term);
-            font-size: 18px;
-            padding: 4px 8px;
-            text-align: center;
-            border-radius: 3px;
+        .news-header-btn {
+            width: 100%;
+            background: #181b21;
+            color: var(--amber-gold);
+            padding: 12px;
+            font-family: var(--font-head);
+            font-size: 14px;
             font-weight: bold;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .badge-safe { background: rgba(0, 230, 118, 0.15); color: var(--v-green); border: 1px solid var(--v-green); }
-        .badge-warning { background: rgba(255, 51, 68, 0.15); color: var(--v-red); border: 1px solid var(--v-red); }
-        .badge-wait { background: rgba(255, 180, 0, 0.15); color: var(--amber-gold); border: 1px solid var(--amber-gold); }
+        .news-badge {
+            background: var(--v-red);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            animation: blink 1.5s infinite;
+        }
 
-        .rule-list { font-size: 11px; color: var(--text-dim); display: flex; flex-direction: column; gap: 4px; }
-        .rule-item { display: flex; justify-content: space-between; border-bottom: 1px dotted #1a1d24; padding-bottom: 2px; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        .news-content {
+            display: none;
+            padding: 12px;
+            background: #0d0f12;
+            border-top: 1px solid var(--border-v);
+        }
+
+        .news-content.show { display: block; }
+
+        .expert-box {
+            background: #14171d;
+            border: 1px solid var(--border-v);
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #d1d5db;
+            direction: rtl;
+            text-align: right;
+            line-height: 1.6;
+        }
 
         .container { width: 100%; height: 100%; min-height: 440px; }
     </style>
@@ -109,13 +138,54 @@
 <body>
 
     <div class="header">
-        <div class="title">❖ GOLD SPOT (XAUUSD) VINTAGE RADAR</div>
+        <div class="title">❖ GOLD SPOT RADAR & LIVE NEWS STREAM</div>
         <div style="font-family: var(--font-term); font-size: 18px; color: var(--v-green);">
-            FEED: FOREXCOM REALTIME
+            XAUUSD & USD NEWS FEED
+        </div>
+    </div>
+
+    <!-- DROPDOWN LIVE NEWS ACCORDION -->
+    <div class="news-accordion">
+        <button class="news-header-btn" onclick="toggleNews()">
+            <span>📰 گولڈ سے متعلق لائیو اور تازه‌ ترین خبریں (GOLD & USD LIVE NEWS)</span>
+            <div>
+                <span class="news-badge">LIVE FEED</span>
+                <span id="arrow-icon" style="margin-left: 8px;">▼</span>
+            </div>
+        </button>
+        <div id="news-body" class="news-content">
+            
+            <div class="expert-box">
+                <strong style="color: var(--amber-gold);">📚 ٹریڈنگ بکس کے مطابق فوری مشورہ:</strong><br>
+                • <strong>امریکی ڈالر (USD) کی خبر مثبت (Green) آئے:</strong> گولڈ نیچے گرے گا ➔ <strong>SELL کی سوچیں۔</strong><br>
+                • <strong>امریکی ڈالر (USD) کی خبر منفی (Red) آئے:</strong> گولڈ اوپر جائے گا ➔ <strong>BUY کی سوچیں۔</strong><br>
+                • <strong>اہم خبر کے وقت:</strong> پہلے 5 منٹ کوئی نئی ٹریڈ نہ لگائیں، پرائس کو ایک سمت منتخب کرنے دیں۔
+            </div>
+            
+            <!-- LIVE TRADINGVIEW NEWS WIDGET FOR FOREX & GOLD -->
+            <div style="height: 320px; width: 100%;">
+                <div class="tradingview-widget-container" style="height:100%; width:100%;">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+                    {
+                    "feedMode": "symbol",
+                    "symbol": "FOREXCOM:XAUUSD",
+                    "colorTheme": "dark",
+                    "isTransparent": true,
+                    "displayMode": "regular",
+                    "width": "100%",
+                    "height": "100%",
+                    "locale": "en"
+                    }
+                    </script>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <div class="grid">
+        <!-- REALTIME CHART -->
         <div class="panel">
             <div class="p-title">XAU/USD Real-Time Chart + RSI (14) Indicator</div>
             <div class="container">
@@ -123,23 +193,9 @@
             </div>
         </div>
 
+        <!-- TECHNICAL GAUGE -->
         <div class="panel">
-            
-            <div class="fake-detector-card">
-                <div class="p-title" style="color: var(--amber-gold); border: none; margin: 0;">🛡️ FAKE SIGNAL & LIQUIDITY FILTER</div>
-                
-                <div id="detector-status" class="status-badge badge-wait">
-                    ANALYZING MARKET NOISE...
-                </div>
-
-                <div class="rule-list">
-                    <div class="rule-item"><span>1m vs 5m Trend:</span><strong id="chk-trend" style="color: var(--amber-gold);">CHECKING</strong></div>
-                    <div class="rule-item"><span>RSI Divergence:</span><strong id="chk-div" style="color: var(--v-green);">NONE DETECTED</strong></div>
-                    <div class="rule-item"><span>Liquidity Trap Risk:</span><strong id="chk-trap" style="color: var(--v-green);">LOW RISK</strong></div>
-                </div>
-            </div>
-
-            <div class="p-title">Overall Momentum Gauge</div>
+            <div class="p-title">Momentum Gauge & Order Flow</div>
             <div style="flex-grow: 1; width: 100%;">
                 <div class="tradingview-widget-container" style="height:100%;">
                     <div class="tradingview-widget-container__widget"></div>
@@ -158,10 +214,10 @@
                     </script>
                 </div>
             </div>
-
         </div>
     </div>
 
+    <!-- TRADINGVIEW SCRIPT -->
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script type="text/javascript">
         new TradingView.widget({
@@ -182,25 +238,17 @@
             ]
         });
 
-        // Simple Automated Safety Status Dynamic Engine
-        setInterval(() => {
-            const statuses = [
-                { text: "SAFE: TREND MATCHED (CLEAR ENTRY)", class: "badge-safe", trend: "MATCHED", div: "NONE", trap: "LOW" },
-                { text: "NO TRADE: RSI IN NEUTRAL ZONE (45-55)", class: "badge-wait", trend: "SIDEWAYS", div: "NONE", trap: "LOW" },
-                { text: "WARNING: FAKEOUT / LIQUIDITY TRAP", class: "badge-warning", trend: "MISMATCH", div: "BEARISH DIV", trap: "HIGH RISK" }
-            ];
-            
-            // Auto Update Safety Guidance Indicator
-            const current = statuses[Math.floor(Math.random() * statuses.length)];
-            const statusElem = document.getElementById('detector-status');
-            if(statusElem) {
-                statusElem.innerText = current.text;
-                statusElem.className = "status-badge " + current.class;
-                document.getElementById('chk-trend').innerText = current.trend;
-                document.getElementById('chk-div').innerText = current.div;
-                document.getElementById('chk-trap').innerText = current.trap;
+        function toggleNews() {
+            const body = document.getElementById('news-body');
+            const arrow = document.getElementById('arrow-icon');
+            if (body.classList.contains('show')) {
+                body.classList.remove('show');
+                arrow.innerText = '▼';
+            } else {
+                body.classList.add('show');
+                arrow.innerText = '▲';
             }
-        }, 12000);
+        }
     </script>
 </body>
 </html>
