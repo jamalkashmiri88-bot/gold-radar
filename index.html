@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XAUUSD / PAXG Institutional Liquidity & RSI Radar</title>
+    <title>XAUUSD / Gold Spot Institutional Radar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -15,11 +15,8 @@
             --text-main: #f0f3fa;
             --text-muted: #788296;
             --green: #00e676;
-            --green-glow: rgba(0, 230, 118, 0.15);
             --red: #ff3d57;
-            --red-glow: rgba(255, 61, 87, 0.15);
             --gold: #f5b000;
-            --gold-glow: rgba(245, 176, 0, 0.15);
             --font-sans: 'Plus Jakarta Sans', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
         }
@@ -63,14 +60,9 @@
         .brand-title { font-size: 15px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
         .brand-badge { background: rgba(245, 176, 0, 0.1); color: var(--gold); border: 1px solid rgba(245, 176, 0, 0.3); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
 
-        .header-stats { display: flex; gap: 16px; }
-        .stat-box { background: var(--bg-base); border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; display: flex; align-items: center; gap: 10px; font-size: 13px; }
-        .stat-label { color: var(--text-muted); font-size: 11px; font-weight: 600; text-transform: uppercase; }
-        .stat-value { font-family: var(--font-mono); font-weight: 700; }
-
         .dashboard-container {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
             padding: 20px;
             flex-grow: 1;
@@ -85,60 +77,28 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 24px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            min-height: 500px;
         }
 
         .panel-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
             border-bottom: 1px solid var(--border);
         }
 
         .panel-header h2 { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; }
 
-        .gauge-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; flex-grow: 1; position: relative; }
-        .gauge-svg { width: 280px; height: 150px; }
-        .gauge-bg { fill: none; stroke: var(--border); stroke-width: 18; stroke-linecap: round; }
-        .gauge-arc-oversold { fill: none; stroke: var(--green); stroke-width: 18; stroke-dasharray: 60 300; }
-        .gauge-arc-neutral { fill: none; stroke: var(--gold); stroke-width: 18; stroke-dasharray: 100 300; stroke-dashoffset: -55; }
-        .gauge-arc-overbought { fill: none; stroke: var(--red); stroke-width: 18; stroke-dasharray: 60 300; stroke-dashoffset: -150; }
-
-        .gauge-needle { fill: var(--text-main); transition: transform 0.3s ease-out; transform-origin: 140px 130px; }
-
-        .rsi-display { text-align: center; margin-top: 10px; }
-        .rsi-number { font-family: var(--font-mono); font-size: 48px; font-weight: 800; line-height: 1; margin-bottom: 8px; }
-        .rsi-status-pill { display: inline-block; font-size: 12px; font-weight: 800; padding: 4px 16px; border-radius: 20px; text-transform: uppercase; }
-
-        .orderbook-grid { display: flex; flex-direction: column; gap: 2px; font-family: var(--font-mono); font-size: 12px; }
-        .ob-header { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 6px 12px; color: var(--text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; }
-        .ob-row { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 6px 12px; position: relative; border-radius: 4px; align-items: center; }
-        .ob-depth-bar { position: absolute; top: 0; bottom: 0; right: 0; opacity: 0.2; border-radius: 2px; transition: width 0.15s ease; }
-
-        .ask-row .ob-depth-bar { background-color: var(--red); }
-        .bid-row .ob-depth-bar { background-color: var(--green); }
-
-        .price-ask { color: var(--red); font-weight: 700; z-index: 1; }
-        .price-bid { color: var(--green); font-weight: 700; z-index: 1; }
-        .amount-val { color: var(--text-main); text-align: right; z-index: 1; }
-        .total-val { color: var(--text-muted); text-align: right; z-index: 1; }
-
-        .spread-bar {
-            background: rgba(245, 176, 0, 0.05);
-            border-top: 1px dashed var(--border);
-            border-bottom: 1px dashed var(--border);
-            padding: 10px 12px;
-            margin: 6px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 700;
-            color: var(--gold);
+        .tradingview-widget-container {
+            width: 100%;
+            height: 100%;
+            min-height: 420px;
         }
     </style>
 </head>
@@ -147,227 +107,68 @@
     <div class="navbar">
         <div class="brand">
             <div class="brand-icon"></div>
-            <span class="brand-title">XAUUSD / PAXG RADAR</span>
-            <span class="brand-badge">INSTITUTIONAL</span>
-        </div>
-        <div class="header-stats">
-            <div class="stat-box">
-                <span class="stat-label">LIVE GOLD</span>
-                <span id="header-price" class="stat-value" style="color: var(--green);">$0.00</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">FEED</span>
-                <span id="conn-health" class="stat-value" style="color: var(--gold);">CONNECTING</span>
-            </div>
+            <span class="brand-title">GOLD SPOT (XAUUSD) RADAR</span>
+            <span class="brand-badge">SPOT FOREX & RSI</span>
         </div>
     </div>
 
     <div class="dashboard-container">
+        <!-- GOLD SPOT XAUUSD LIVE CHART WITH RSI -->
         <div class="panel">
             <div class="panel-header">
-                <h2>Real-Time Momentum Engine (RSI 14)</h2>
-                <span style="font-size: 11px; color: var(--text-muted);">High-Frequency Ticks</span>
+                <h2>XAUUSD Real-Time Chart & Technical RSI</h2>
+                <span style="font-size: 11px; color: var(--gold);">TV SPOT FEED</span>
             </div>
-
-            <div class="gauge-wrapper">
-                <svg class="gauge-svg" viewBox="0 0 280 150">
-                    <path class="gauge-bg" d="M 30 130 A 110 110 0 0 1 250 130" />
-                    <path class="gauge-arc-oversold" d="M 30 130 A 110 110 0 0 1 250 130" />
-                    <path class="gauge-arc-neutral" d="M 30 130 A 110 110 0 0 1 250 130" />
-                    <path class="gauge-arc-overbought" d="M 30 130 A 110 110 0 0 1 250 130" />
-                    <polygon id="gauge-needle" class="gauge-needle" points="137,130 143,130 140,30" transform="rotate(-90 140 130)" />
-                    <circle cx="140" cy="130" r="8" fill="var(--text-main)" />
-                </svg>
-
-                <div class="rsi-display">
-                    <div id="rsi-val" class="rsi-number" style="color: var(--text-muted);">--.--</div>
-                    <div id="rsi-status-pill" class="rsi-status-pill" style="background: var(--border); color: var(--text-muted);">COLLECTING TICKS</div>
-                </div>
+            <div class="tradingview-widget-container">
+                <div id="tv_chart_container" style="height: 100%; width: 100%;"></div>
             </div>
         </div>
 
+        <!-- TECHNICAL ANALYSIS & MOMENTUM SUMMARY -->
         <div class="panel">
             <div class="panel-header">
-                <h2>Depth Book Liquidity Heatmap</h2>
-                <span style="font-size: 11px; color: var(--text-muted);">Top 8 Level Snapshot</span>
+                <h2>XAUUSD Technical Gauge & Liquidity Oscillators</h2>
+                <span style="font-size: 11px; color: var(--text-muted);">MULTIPLE TIMEFRAMES</span>
             </div>
-
-            <div class="ob-header">
-                <span>PRICE (USD)</span>
-                <span style="text-align: right;">SIZE (PAXG)</span>
-                <span style="text-align: right;">LIQUIDITY</span>
-            </div>
-
-            <div class="orderbook-grid">
-                <div id="asks-container" style="display: flex; flex-direction: column-reverse; gap: 2px;"></div>
-                
-                <div class="spread-bar">
-                    <span>SPREAD / MID</span>
-                    <span id="mid-price" style="font-family: var(--font-mono);">$0.00</span>
-                </div>
-
-                <div id="bids-container" style="display: flex; flex-direction: column; gap: 2px;"></div>
+            <div class="tradingview-widget-container">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+                {
+                "interval": "1m",
+                "width": "100%",
+                "isTransparent": true,
+                "height": "100%",
+                "symbol": "OANDA:XAUUSD",
+                "showIntervalTabs": true,
+                "displayMode": "single",
+                "locale": "en",
+                "colorTheme": "dark"
+                }
+                </script>
             </div>
         </div>
     </div>
 
-    <script>
-        class ContinuousRSI {
-            constructor(period = 14) {
-                this.period = period;
-                this.prices = [];
-                this.avgGain = null;
-                this.avgLoss = null;
-            }
-
-            addTick(price) {
-                if (this.prices.length > 0 && this.prices[this.prices.length - 1] === price) {
-                    return this.avgGain !== null ? this.getCalculatedRSI() : null;
-                }
-
-                this.prices.push(price);
-
-                if (this.prices.length < this.period + 1) return null;
-
-                if (this.avgGain === null) {
-                    let gains = 0, losses = 0;
-                    for (let i = 1; i <= this.period; i++) {
-                        let diff = this.prices[i] - this.prices[i - 1];
-                        if (diff >= 0) gains += diff;
-                        else losses += Math.abs(diff);
-                    }
-                    this.avgGain = gains / this.period;
-                    this.avgLoss = losses / this.period;
-                } else {
-                    let diff = this.prices[this.prices.length - 1] - this.prices[this.prices.length - 2];
-                    let gain = diff > 0 ? diff : 0;
-                    let loss = diff < 0 ? Math.abs(diff) : 0;
-                    this.avgGain = (this.avgGain * (this.period - 1) + gain) / this.period;
-                    this.avgLoss = (this.avgLoss * (this.period - 1) + loss) / this.period;
-                }
-
-                return this.getCalculatedRSI();
-            }
-
-            getCalculatedRSI() {
-                if (this.avgLoss === 0) return 100;
-                let rs = this.avgGain / this.avgLoss;
-                return Math.round((100 - (100 / (1 + rs))) * 100) / 100;
-            }
-        }
-
-        const rsiEngine = new ContinuousRSI(14);
-        // Robust Combined Stream: Aggregated Trades + Depth Snapshot
-        const WS_URL = "wss://stream.binance.com:9443/stream?streams=paxgusdt@aggTrade/paxgusdt@depth5@100ms";
-
-        function connectWebSocket() {
-            const ws = new WebSocket(WS_URL);
-
-            ws.onopen = () => {
-                const connElem = document.getElementById('conn-health');
-                connElem.innerText = "LIVE (DIRECT)";
-                connElem.style.color = "var(--green)";
-            };
-
-            ws.onmessage = (e) => {
-                const msg = JSON.parse(e.data);
-                const stream = msg.stream;
-                const data = msg.data;
-
-                if (stream.includes('aggTrade')) {
-                    const price = parseFloat(data.p);
-                    document.getElementById('header-price').innerText = "$" + price.toFixed(2);
-                    document.getElementById('mid-price').innerText = "$" + price.toFixed(2);
-
-                    const rsi = rsiEngine.addTick(price);
-                    if (rsi !== null) {
-                        updateGauge(rsi);
-                    } else {
-                        document.getElementById('rsi-status-pill').innerText = `TICKS (${rsiEngine.prices.length}/15)`;
-                    }
-                } else if (stream.includes('depth')) {
-                    renderOrderbook(data.b, data.a);
-                }
-            };
-
-            ws.onerror = (err) => { console.error("WS Error", err); };
-
-            ws.onclose = () => {
-                const connElem = document.getElementById('conn-health');
-                connElem.innerText = "RECONNECTING...";
-                connElem.style.color = "var(--red)";
-                setTimeout(connectWebSocket, 1000);
-            };
-        }
-
-        function updateGauge(rsi) {
-            const rsiElem = document.getElementById('rsi-val');
-            const pillElem = document.getElementById('rsi-status-pill');
-            const needle = document.getElementById('gauge-needle');
-
-            rsiElem.innerText = rsi.toFixed(2);
-
-            const angle = (rsi / 100) * 180 - 90;
-            needle.style.transform = `rotate(${angle}deg)`;
-
-            if (rsi >= 70) {
-                rsiElem.style.color = "var(--red)";
-                pillElem.innerText = "OVERBOUGHT (SELL ZONE)";
-                pillElem.style.background = "var(--red-glow)";
-                pillElem.style.color = "var(--red)";
-            } else if (rsi <= 30) {
-                rsiElem.style.color = "var(--green)";
-                pillElem.innerText = "OVERSOLD (BUY ZONE)";
-                pillElem.style.background = "var(--green-glow)";
-                pillElem.style.color = "var(--green)";
-            } else {
-                rsiElem.style.color = "var(--gold)";
-                pillElem.innerText = "NEUTRAL MOMENTUM";
-                pillElem.style.background = "var(--gold-glow)";
-                pillElem.style.color = "var(--gold)";
-            }
-        }
-
-        function renderOrderbook(bids, asks) {
-            const asksContainer = document.getElementById('asks-container');
-            const bidsContainer = document.getElementById('bids-container');
-
-            asksContainer.innerHTML = '';
-            bidsContainer.innerHTML = '';
-
-            let maxAsk = Math.max(...asks.map(a => parseFloat(a[1]))) || 1;
-            let maxBid = Math.max(...bids.map(b => parseFloat(b[1]))) || 1;
-
-            asks.slice(0, 8).forEach(ask => {
-                const p = parseFloat(ask[0]).toFixed(2);
-                const q = parseFloat(ask[1]).toFixed(2);
-                const pct = (q / maxAsk) * 100;
-
-                asksContainer.innerHTML += `
-                    <div class="ob-row ask-row">
-                        <div class="ob-depth-bar" style="width: ${pct}%;"></div>
-                        <span class="price-ask">$${p}</span>
-                        <span class="amount-val">${q}</span>
-                        <span class="total-val">${pct.toFixed(0)}%</span>
-                    </div>`;
-            });
-
-            bids.slice(0, 8).forEach(bid => {
-                const p = parseFloat(bid[0]).toFixed(2);
-                const q = parseFloat(bid[1]).toFixed(2);
-                const pct = (q / maxBid) * 100;
-
-                bidsContainer.innerHTML += `
-                    <div class="ob-row bid-row">
-                        <div class="ob-depth-bar" style="width: ${pct}%;"></div>
-                        <span class="price-bid">$${p}</span>
-                        <span class="amount-val">${q}</span>
-                        <span class="total-val">${pct.toFixed(0)}%</span>
-                    </div>`;
-            });
-        }
-
-        connectWebSocket();
+    <!-- TRADINGVIEW ADVANCED CHART SCRIPT -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+        new TradingView.widget({
+            "autosize": true,
+            "symbol": "OANDA:XAUUSD",
+            "interval": "1",
+            "timezone": "Etc/UTC",
+            "theme": "dark",
+            "style": "1",
+            "locale": "en",
+            "toolbar_bg": "#080a0f",
+            "enable_publishing": false,
+            "hide_top_toolbar": false,
+            "save_image": false,
+            "container_id": "tv_chart_container",
+            "studies": [
+                "STD;RSI"
+            ]
+        });
     </script>
 </body>
 </html>
