@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XAUUSD Vintage Gold Terminal</title>
+    <title>XAUUSD Vintage Gold Terminal (Real-time Gauge)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=VT323&display=swap" rel="stylesheet">
@@ -78,6 +78,8 @@
             margin-bottom: 8px;
             border-bottom: 1px dashed var(--border-v);
             padding-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
         }
 
         .chart-box { 
@@ -86,53 +88,57 @@
             flex-grow: 1;
             min-height: 420px;
         }
+
+        .live-dot {
+            height: 8px;
+            width: 8px;
+            background-color: var(--v-green);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px var(--v-green);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
         <div class="title">❖ GOLD SPOT (XAUUSD) VINTAGE RADAR</div>
-        <div style="font-family: var(--font-term); font-size: 18px; color: var(--v-green);">
-            STATUS: ACTIVE FEED
+        <div style="font-family: var(--font-term); font-size: 18px; color: var(--v-green); display: flex; align-items: center; gap: 8px;">
+            <span class="live-dot"></span> REALTIME LIVE FEED
         </div>
     </div>
 
     <div class="grid">
-        <!-- REALTIME XAUUSD CHART WITH RSI -->
         <div class="panel">
-            <div class="p-title">XAU/USD Real-Time Chart + RSI (14) Indicator</div>
+            <div class="p-title">
+                <span>XAU/USD Real-Time Chart + RSI (14) Indicator</span>
+                <span style="color: var(--v-green);">● TICK BY TICK</span>
+            </div>
             <div class="chart-box">
                 <div id="tv_chart_container" style="height:100%; width:100%;"></div>
             </div>
         </div>
 
-        <!-- TECHNICAL ANALYSIS SCANNER & GAUGE -->
         <div class="panel">
-            <div class="p-title">Momentum Radar & Gauge</div>
-            <div class="chart-box">
-                <div class="tradingview-widget-container" style="height:100%; width:100%;">
-                    <div class="tradingview-widget-container__widget" style="height:100%; width:100%;"></div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
-                    {
-                    "interval": "1m",
-                    "width": "100%",
-                    "isTransparent": true,
-                    "height": "100%",
-                    "symbol": "FOREXCOM:XAUUSD",
-                    "showIntervalTabs": true,
-                    "displayMode": "single",
-                    "locale": "en",
-                    "colorTheme": "dark"
-                    }
-                    </script>
-                </div>
+            <div class="p-title">
+                <span>Momentum Radar & Gauge</span>
+                <span id="sync-status" style="color: var(--amber-gold);">AUTO SYNC: 10s</span>
             </div>
+            <div class="chart-box" id="gauge-container">
+                </div>
         </div>
     </div>
 
-    <!-- TRADINGVIEW SCRIPT -->
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script type="text/javascript">
+        // 1. Load Live Chart
         new TradingView.widget({
             "autosize": true,
             "symbol": "FOREXCOM:XAUUSD",
@@ -150,6 +156,53 @@
                 "STD;RSI"
             ]
         });
+
+        // 2. Function to inject and refresh the Gauge Widget
+        function loadLiveGauge() {
+            const container = document.getElementById('gauge-container');
+            if(!container) return;
+
+            // Clear old widget
+            container.innerHTML = '';
+
+            const widgetWrapper = document.createElement('div');
+            widgetWrapper.className = 'tradingview-widget-container';
+            widgetWrapper.style.height = '100%';
+            widgetWrapper.style.width = '100%';
+
+            const widgetInner = document.createElement('div');
+            widgetInner.className = 'tradingview-widget-container__widget';
+            widgetInner.style.height = '100%';
+            widgetInner.style.width = '100%';
+
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js';
+            script.async = true;
+            script.text = JSON.stringify({
+                "interval": "1m",
+                "width": "100%",
+                "isTransparent": true,
+                "height": "100%",
+                "symbol": "FOREXCOM:XAUUSD",
+                "showIntervalTabs": true,
+                "displayMode": "single",
+                "locale": "en",
+                "colorTheme": "dark"
+            });
+
+            widgetWrapper.appendChild(widgetInner);
+            widgetWrapper.appendChild(script);
+            container.appendChild(widgetWrapper);
+        }
+
+        // First Load
+        loadLiveGauge();
+
+        // Auto-refresh Gauge every 10 seconds for real-time Buy/Sell updates
+        setInterval(() => {
+            loadLiveGauge();
+        }, 10000);
     </script>
 </body>
 </html>
